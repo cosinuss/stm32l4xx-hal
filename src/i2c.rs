@@ -1,10 +1,11 @@
 //! Inter-Integrated Circuit (I2C) bus
 
-use crate::stm32::{I2C1, I2C2};
+use crate::stm32::{I2C1, I2C2, I2C3};
 use cast::u8;
 
 use crate::gpio::gpioa::{PA10, PA9};
 use crate::gpio::gpiob::{PB10, PB11, PB6, PB7, PB8, PB9};
+use crate::gpio::gpioc::{PC0, PC1};
 use crate::gpio::{Alternate, OpenDrain, Output, AF4};
 use crate::hal::blocking::i2c::{Read, Write, WriteRead};
 use crate::rcc::{Clocks, APB1R1};
@@ -42,6 +43,8 @@ unsafe impl SclPin<I2C1> for PB8<Alternate<AF4, Output<OpenDrain>>> {}
 unsafe impl SdaPin<I2C1> for PB9<Alternate<AF4, Output<OpenDrain>>> {}
 unsafe impl SclPin<I2C2> for PB10<Alternate<AF4, Output<OpenDrain>>> {}
 unsafe impl SdaPin<I2C2> for PB11<Alternate<AF4, Output<OpenDrain>>> {}
+unsafe impl SclPin<I2C3> for PC0<Alternate<AF4, Output<OpenDrain>>> {}
+unsafe impl SdaPin<I2C3> for PC1<Alternate<AF4, Output<OpenDrain>>> {}
 
 /// I2C peripheral operating in master mode
 pub struct I2c<I2C, PINS> {
@@ -316,4 +319,5 @@ macro_rules! hal {
 hal! {
     I2C1: (i2c1, i2c1en, i2c1rst),
     I2C2: (i2c2, i2c2en, i2c2rst),
+    I2C3: (i2c3, i2c3en, i2c3rst),
 }
